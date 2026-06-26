@@ -430,13 +430,8 @@ async function saveConfig() {
 }
 
 async function initSupabase() {
-  const cfg = getConfig();
-  if (!cfg.url || !cfg.key) {
-    sbClient = null;
-    document.getElementById('setup-banner').style.display = 'block';
-    return;
-  }
-  // Load supabase-js from CDN
+  const SUPABASE_URL = 'https://supabase.com/dashboard/project/mwokczfbgbzhfedubbef'; 
+  const SUPABASE_KEY = 'sb_publishable_KR6rhQKhWIn3hHuvaIz2LA_62T1Tv1v';           
   if (!window._sbLoaded) {
     await new Promise((res, rej) => {
       const s = document.createElement('script');
@@ -446,7 +441,7 @@ async function initSupabase() {
     });
     window._sbLoaded = true;
   }
-  sbClient = window.supabase.createClient(cfg.url, cfg.key);
+  sbClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
   document.getElementById('setup-banner').style.display = 'none';
 }
 
@@ -739,11 +734,6 @@ function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').repl
   applyLang();
   checkNotifBanner();
   await initSupabase();
-  const cfg=getConfig();
-  if(!cfg.url||!cfg.key){
-    // first launch: show modal automatically
-    openConfig();
-  }
   await loadBookings();
 })();
 </script>
